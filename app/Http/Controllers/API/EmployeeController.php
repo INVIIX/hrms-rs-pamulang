@@ -14,7 +14,7 @@ class EmployeeController extends Controller
 {
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return EmployeeResource::collection(Employee::latest()->paginate(10));
+        return EmployeeResource::collection(Employee::with('profile')->latest()->paginate(10));
     }
 
     public function store(CreateEmployeeRequest $request): EmployeeResource|\Illuminate\Http\JsonResponse

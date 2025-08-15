@@ -26,6 +26,8 @@ return new class extends Migration {
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->string('location')->nullable();
+            $table->string('contract_document_number')->nullable();
+            $table->string('employment_document_number')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

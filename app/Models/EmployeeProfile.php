@@ -7,6 +7,7 @@ use App\Enums\Gender;
 use App\Enums\MaritalStatus;
 use App\Enums\Religion;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmployeeProfile extends Model
 {
@@ -32,4 +33,14 @@ class EmployeeProfile extends Model
         'marital_status' => MaritalStatus::class,
         'citizenship' => Citizenship::class,
     ];
+
+    /**
+     * Get the user that owns the EmployeeContact
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

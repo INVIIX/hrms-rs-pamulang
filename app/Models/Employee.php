@@ -32,7 +32,9 @@ class Employee extends Authenticatable implements MustVerifyEmail
         'avatar',
         'hire_date',
         'type',
-        'status'
+        'status',
+        'bank_name',
+        'bank_account'
     ];
 
     /**
@@ -76,8 +78,23 @@ class Employee extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(EmployeeProfile::class);
     }
 
+    public function employments(): HasMany
+    {
+        return $this->hasMany(EmployeeEmployment::class);
+    }
+
     public function educational_backgrounds(): HasMany
     {
         return $this->hasMany(EmployeeEducationalBackground::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(EmployeeContact::class);
+    }
+
+    public function salary_components(): HasMany
+    {
+        return $this->hasMany(SalaryComponent::class);
     }
 }

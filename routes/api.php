@@ -8,7 +8,16 @@ Route::group([
     Route::group([
         'middleware' => ['guest']
     ], function () {
-        Route::prefix('enums')->name('enums.')->group(function(){
+        Route::post('login', [API\AuthController::class, 'login'])->name('auth.login');
+    });
+
+    Route::group([
+        'middleware' => ['auth:api']
+    ], function () {
+        Route::get('me', [API\AuthController::class, 'me'])->name('auth.me');
+        Route::post('logout', [API\AuthController::class, 'logout'])->name('auth.logout');
+
+        Route::prefix('enums')->name('enums.')->group(function () {
             Route::get('/', [API\EnumReferenceController::class, 'index'])->name('all');
             Route::get('/citizenship', [API\EnumReferenceController::class, 'show'])->name('citizenship');
             Route::get('/degree', [API\EnumReferenceController::class, 'show'])->name('degree');
@@ -20,16 +29,15 @@ Route::group([
             Route::get('/relationship', [API\EnumReferenceController::class, 'show'])->name('relationship');
             Route::get('/religion', [API\EnumReferenceController::class, 'show'])->name('religion');
         });
-        Route::post('login', [API\AuthController::class, 'login'])->name('auth.login');
-    });
 
-    Route::group([
-        'middleware' => ['auth:api']
-    ], function () {
-        Route::post('logout', [API\AuthController::class, 'logout'])->name('auth.logout');
-        Route::apiResource('employees', App\Http\Controllers\API\EmployeeController::class);
-        Route::apiResource('employees.educational-backgrounds', App\Http\Controllers\API\EmployeeEducationalBackgroundController::class);
+        Route::get('groups/tree', [API\GroupController::class, 'tree'])->name('groups.tree');
+        Route::apiResource('groups', API\GroupController::class);
+        Route::apiResource('positions', API\PositionController::class);
+        Route::apiResource('salary-components', API\SalaryComponentController::class);
+        Route::apiResource('employees', API\EmployeeController::class);
+        Route::apiResource('employees.employments', API\EmployeeEmploymentController::class);
+        Route::apiResource('employees.educational-backgrounds', API\EmployeeEducationalBackgroundController::class);
+        Route::apiResource('employees.trainings', API\EmployeeTrainingController::class);
+        Route::apiResource('employees.salary-components', API\EmployeeSalaryComponentController::class);
     });
 });
-
-

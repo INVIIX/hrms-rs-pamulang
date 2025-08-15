@@ -2,25 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\Degree;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class EmployeeEducationalBackground extends Model
+class EmployeeSalaryComponent extends Model
 {
     protected $fillable = [
-        "degree",
-        "major",
-        "institution_name",
-        "enrollment_year",
-        "graduation_year",
-        "gpa"
+        'employee_id',
+        'salarty_component_id',
+        'amount',
     ];
-
-    protected $casts = [
-        'degree' => Degree::class
-    ];
-
     /**
      * Get the user that owns the EmployeeContact
      *
@@ -29,5 +20,10 @@ class EmployeeEducationalBackground extends Model
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function component(): BelongsTo
+    {
+        return $this->belongsTo(SalaryComponent::class);
     }
 }

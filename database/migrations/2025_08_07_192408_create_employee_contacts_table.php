@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('name');
             $table->string('relationship');  // misal: spouse, child, friend, emergency_contact, guardian, etc
-            $table->date('birth_date')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->string('occupation')->nullable();
             $table->string('phone')->nullable();
-            $table->boolean('is_dependent')->default(false);          // Apakah menjadi tanggungan karyawan?
+            $table->boolean('is_dependent')->default(false); // Apakah menjadi tanggungan karyawan?
             $table->boolean('is_emergency_contact')->default(false);
             $table->timestamps();
         });

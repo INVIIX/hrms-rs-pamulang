@@ -14,14 +14,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('salary_components', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');  // Nama komponen, misal "Basic Salary", "Transport Allowance"
-            $table->enum('type', ['earning', 'deduction']);  // Tipe komponen: pendapatan atau potongan
-            $table->text('description')->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('employee_salaries', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
@@ -50,6 +42,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('employee_salary_details');
         Schema::dropIfExists('employee_salaries');
-        Schema::dropIfExists('salary_components');
     }
 };

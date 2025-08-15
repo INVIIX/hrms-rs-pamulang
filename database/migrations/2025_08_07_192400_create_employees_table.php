@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->date('hire_date');
             $table->enum('type', ['Permanent', 'Full Time', 'Part Time', 'Contract', 'Internship', 'Freelance', 'Temporary']);
             $table->enum('status', ['Active', 'Probation', 'Resigned', 'Terminated', 'Retired']);
+            $table->string('bank_name')->nullable();
+            $table->string('bank_account')->nullable();
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();

@@ -17,6 +17,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
         $user = Auth::user();
+        $user->load('profile');
         // Buat token personal access (Sanctum)
         $accessToken = $user->createToken('access_token', ['*']);
         return (new JsonResource([
@@ -24,6 +25,13 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'user' => $user,
         ]))->response();
+    }
+
+    public function me(Request $request)
+    {
+        $user = $request->user();
+        $user->load('profile');
+        return new JsonResource($user);
     }
 
     public function logout(Request $request)
