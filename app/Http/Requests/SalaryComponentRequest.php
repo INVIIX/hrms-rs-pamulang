@@ -15,8 +15,8 @@ class SalaryComponentRequest extends FormRequest
     {
         return [
             'name' => 'string|max:255',
-            'type' => 'in:earning,deduction',
-            'description' => 'string',
+            'type' => 'required|in:earning,deduction',
+            'description' => 'nullable|string',
         ];
     }
 }

@@ -2,13 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
+ * @property \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[] $file
  * @method \Illuminate\Routing\Route route(string $param = null)
+ * @method bool hasFile(string $key)
+ * @method mixed file(string $key)
  */
-class UpdateEmployeeRequest extends FormRequest
+class EmployeeUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,28 +21,28 @@ class UpdateEmployeeRequest extends FormRequest
 
     public function rules(): array
     {
-        $employee = $this->route('employee');
+        $id = $this->route('employee');
         return [
             'name' => [
-                'required',
+                'nullable',
                 'string',
                 'max:125',
-                Rule::unique('employees')->ignore($employee)
+                Rule::unique('employees')->ignore($id)
             ],
             'email' => [
-                'required',
+                'nullable',
                 'email',
-                Rule::unique('employees')->ignore($employee)
+                Rule::unique('employees')->ignore($id)
             ],
             'phone' => [
-                'required',
+                'nullable',
                 'string',
-                Rule::unique('employees')->ignore($employee)
+                Rule::unique('employees')->ignore($id)
             ],
             'nip' => [
-                'required',
+                'nullable',
                 'string',
-                Rule::unique('employees')->ignore($employee)
+                Rule::unique('employees')->ignore($id)
             ],
             'hire_date' => [
                 Rule::date()->format('Y-m-d')
@@ -47,24 +51,28 @@ class UpdateEmployeeRequest extends FormRequest
             'status' => 'nullable|in:Active,Probation,Resigned,Terminated,Retired',
             'avatar' => 'nullable|image',
             'password' => 'nullable|string|max:255',
-            'profile.name' => 'required|string|max:255',
+            'profile' => 'nullable|array',
+            'profile.name' => 'nullable|string|max:255',
             'profile.nik' => [
-                'required',
-                Rule::unique('employee_profiles', 'nik')->ignore($employee->profile->id)
+                'nullable',
+                Rule::unique('employee_profiles', 'nik')->ignore($id, 'employee_id')
             ],
-            'profile.npwp' => 'nullable|string|max:255',
+            'profile.npwp' => [
+                'nullable',
+                Rule::unique('employee_profiles', 'npwp')->ignore($id, 'employee_id')
+            ],
             'profile.bpjs_kesehatan' => 'nullable|string|max:255',
             'profile.bpjs_ketenagakerjaan' => 'nullable|string|max:255',
-            'profile.place_of_birth' => 'required|string',
+            'profile.place_of_birth' => 'nullable|string',
             'profile.date_of_birth' => [
-                'required',
+                'nullable',
                 Rule::date()->beforeOrEqual(today()->subYears(17))->format('Y-m-d')
             ],
-            'profile.gender' => 'required|in:M,F',
-            'profile.marital_status' => 'required|in:Belum Kawin,Kawin Belum Tercatat,Kawin Tercatat,Cerai Hidup,Cerai Mati',
-            'profile.citizenship' => 'required|in:WNI,WNA',
+            'profile.gender' => 'nullable|in:M,F',
+            'profile.marital_status' => 'nullable|in:Belum Kawin,Kawin Belum Tercatat,Kawin Tercatat,Cerai Hidup,Cerai Mati',
+            'profile.citizenship' => 'nullable|in:WNI,WNA',
             'profile.legal_address' => 'nullable|string',
-            'profile.residential_address' => 'required|string',
+            'profile.residential_address' => 'nullable|string',
         ];
     }
 }

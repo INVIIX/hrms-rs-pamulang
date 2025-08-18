@@ -3,21 +3,43 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\EmployeeCreateRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class EmployeeController extends Controller
 {
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return EmployeeResource::collection(Employee::with('profile')->latest()->paginate(10));
+        $request->validate([
+            'page' => 'nullable|numeric|min:1',
+            'limit' => 'nullable|numeric|min:10|max:100',
+            'search' => 'nullable|string|max:255',
+        ]);
+
+        $model = Employee::with('profile');
+
+        if ($request->has('includes')) {
+            $includes = $request->input('includes');
+            $model->with($includes);
+        }
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $model->whereAny([
+                'nip', 'name', 'email', 'phone',
+            ], 'LIKE', '%'. $search .'%');
+        }
+
+        $collection = $model->paginate($request->input('limit', 10));
+        return EmployeeResource::collection($collection);
     }
 
-    public function store(CreateEmployeeRequest $request): EmployeeResource|\Illuminate\Http\JsonResponse
+    public function store(EmployeeCreateRequest $request): EmployeeResource|\Illuminate\Http\JsonResponse
     {
         try {
             $input = $request->validated();
@@ -39,13 +61,22 @@ class EmployeeController extends Controller
         return EmployeeResource::make($employee);
     }
 
-    public function update(UpdateEmployeeRequest $request, Employee $employee): EmployeeResource|\Illuminate\Http\JsonResponse
+    public function update(EmployeeUpdateRequest $request, Employee $employee): EmployeeResource|\Illuminate\Http\JsonResponse
     {
         try {
             $input = $request->validated();
+
+            if ($request->hasFile('avatar')) {
+                $input['avatar'] = $request->file('avatar')->store('avatars');
+            } else {
+                unset($input['avatar']);
+            }
+
             DB::beginTransaction();
             $employee->update($input);
-            $employee->profile()->updateOrCreate([], $input['profile']);
+            if (isset($input['profile'])) {
+                $employee->profile()->updateOrCreate([], $input['profile']);
+            }
             DB::commit();
             return new EmployeeResource($employee);
         } catch (\Exception $exception) {

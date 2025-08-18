@@ -10,7 +10,6 @@ class EmployeeProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'employee_id' => $this->employee_id,
             'name' => $this->name,
             'nik' => $this->nik,
             'npwp' => $this->npwp,

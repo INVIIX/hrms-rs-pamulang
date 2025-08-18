@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SalaryComponentType;
 use Illuminate\Database\Eloquent\Model;
 
 class SalaryComponent extends Model
@@ -11,4 +12,11 @@ class SalaryComponent extends Model
         'type',
         'description'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => SalaryComponentType::class,
+        ];
+    }
 }

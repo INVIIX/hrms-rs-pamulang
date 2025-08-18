@@ -18,6 +18,8 @@ class EmployeeResource extends JsonResource
             'avatar' => $this->avatar,
             'type' => $this->type,
             'status' => $this->status,
+            'bank_name' => $this->bank_name,
+            'bank_account' => $this->bank_account,
             'profile' => new EmployeeProfileResource($this->whenLoaded('profile'))
         ];
     }

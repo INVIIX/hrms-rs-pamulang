@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GroupRequest extends FormRequest
 {
@@ -14,10 +15,12 @@ class GroupRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'parent_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('groups', 'id'),
+            ],
             'name' => 'string|max:255',
-            '_lft' => 'integer',
-            '_rgt' => 'integer',
-            'parent_id' => 'integer',
         ];
     }
 }
