@@ -5,6 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @property \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[] $file
+ * @method \Illuminate\Routing\Route route(string $param = null)
+ * @method bool hasFile(string $key)
+ * @method mixed file(string $key)
+ */
 class EmployeeCreateRequest extends FormRequest
 {
     public function authorize(): bool
@@ -27,6 +33,8 @@ class EmployeeCreateRequest extends FormRequest
             'status' => 'required|in:Active,Probation,Resigned,Terminated,Retired',
             'avatar' => 'nullable|image',
             'password' => 'required|string|max:255',
+            'bank_account' => 'nullable|string|max:255',
+            'bank_name' => 'nullable|string|max:255',
             'profile.name' => 'required|string|max:255',
             'profile.nik' => 'required|string|max:16|unique:employee_profiles,nik',
             'profile.npwp' => 'nullable|string|max:15',

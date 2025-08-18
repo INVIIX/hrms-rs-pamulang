@@ -28,6 +28,7 @@ Route::group([
             Route::get('/marital-status', [API\EnumReferenceController::class, 'show'])->name('marital-status');
             Route::get('/relationship', [API\EnumReferenceController::class, 'show'])->name('relationship');
             Route::get('/religion', [API\EnumReferenceController::class, 'show'])->name('religion');
+            Route::get('/salary-component-type', [API\EnumReferenceController::class, 'show'])->name('salary-component-type');
         });
 
         Route::get('groups/tree', [API\GroupController::class, 'tree'])->name('groups.tree');

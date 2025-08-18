@@ -47,6 +47,6 @@ class EmployeeEmployment extends Model
 
     public function group(): BelongsTo
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsTo(Group::class);
     }
 }

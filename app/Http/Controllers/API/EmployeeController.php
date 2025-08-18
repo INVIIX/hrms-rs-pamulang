@@ -43,10 +43,16 @@ class EmployeeController extends Controller
     {
         try {
             $input = $request->validated();
+            if ($request->hasFile('avatar')) {
+                $input['avatar'] = $request->file('avatar')->store('avatars');
+            } else {
+                unset($input['avatar']);
+            }
             DB::beginTransaction();
             $employee = Employee::create($input);
             $employee->profile()->updateOrCreate([], $input['profile']);
             DB::commit();
+            $employee->load('profile');
             return new EmployeeResource($employee);
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -78,6 +84,7 @@ class EmployeeController extends Controller
                 $employee->profile()->updateOrCreate([], $input['profile']);
             }
             DB::commit();
+            $employee->load('profile');
             return new EmployeeResource($employee);
         } catch (\Exception $exception) {
             DB::rollBack();

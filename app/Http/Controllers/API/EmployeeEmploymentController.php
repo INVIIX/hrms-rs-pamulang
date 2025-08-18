@@ -28,8 +28,9 @@ class EmployeeEmploymentController extends Controller
         }
     }
 
-    public function show(Employee $employee, EmployeeEmployment $employment): EmployeeEmploymentResource
+    public function show(Request $request, Employee $employee, EmployeeEmployment $employment): EmployeeEmploymentResource
     {
+        $employment->load('position', 'group', 'line_manager');
         return EmployeeEmploymentResource::make($employment);
     }
 

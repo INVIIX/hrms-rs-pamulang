@@ -51,6 +51,8 @@ class EmployeeUpdateRequest extends FormRequest
             'status' => 'nullable|in:Active,Probation,Resigned,Terminated,Retired',
             'avatar' => 'nullable|image',
             'password' => 'nullable|string|max:255',
+            'bank_account' => 'nullable|string|max:255',
+            'bank_name' => 'nullable|string|max:255',
             'profile' => 'nullable|array',
             'profile.name' => 'nullable|string|max:255',
             'profile.nik' => [
