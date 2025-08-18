@@ -23,10 +23,10 @@ class EmployeeController extends Controller
 
         $model = Employee::with('profile');
 
-        if ($request->has('includes')) {
-            $includes = $request->input('includes');
-            $model->with($includes);
-        }
+        // if ($request->has('includes')) {
+        //     $includes = $request->input('includes');
+        //     $model->with($includes);
+        // }
 
         if ($request->has('search')) {
             $search = $request->input('search');

@@ -11,8 +11,7 @@ class EmployeeSalaryComponentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'employee_id' => $this->employee_id,
-            'salary_component_id' => $this->salary_component_id,
+            'component' => new SalaryComponentResource($this->whenLoaded('component')),
             'amount' => $this->amount,
         ];
     }
