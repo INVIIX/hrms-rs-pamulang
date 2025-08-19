@@ -11,9 +11,9 @@ class GroupResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
             'name' => $this->name,
             'depth' => $this->depth,
+            'parent' => new GroupResource($this->whenLoaded('parent')),
             'children' => GroupResource::collection($this->whenLoaded('children'))
         ];
     }

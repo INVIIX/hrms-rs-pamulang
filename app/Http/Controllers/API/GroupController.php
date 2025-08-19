@@ -14,13 +14,14 @@ class GroupController extends Controller
 {
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return GroupResource::collection(Group::withDepth()->latest()->paginate(10));
+        return GroupResource::collection(Group::with('parent')->withDepth()->latest()->paginate(10));
     }
 
     public function store(GroupRequest $request): GroupResource|\Illuminate\Http\JsonResponse
     {
         try {
             $group = Group::create($request->validated());
+            $group->load(['parent']);
             return new GroupResource($group);
         } catch (\Exception $exception) {
             report($exception);
@@ -30,7 +31,7 @@ class GroupController extends Controller
 
     public function show(Group $group): GroupResource
     {
-        $group->load(['children']);
+        $group->load(['parent']);
         return GroupResource::make($group);
     }
 
