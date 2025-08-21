@@ -26,6 +26,8 @@ class EmployeeTrainingRequest extends FormRequest
             'training_end_date' => 'date',
             'certificate_name' => 'string|max:255',
             'certificate_path' => 'string|max:255',
+            'type' => 'string|in:Internal,External',
+            'status' => 'string|in:Complete,Incomplete',
             'notes' => 'string',
         ];
     }

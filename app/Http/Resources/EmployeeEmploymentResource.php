@@ -20,6 +20,8 @@ class EmployeeEmploymentResource extends JsonResource
             'location' => $this->location,
             'contract_document_number' => $this->contract_document_number,
             'employment_document_number' => $this->employment_document_number,
+            'type' => $this->type,
+            'status' => $this->status,
             'notes' => $this->notes,
         ];
     }

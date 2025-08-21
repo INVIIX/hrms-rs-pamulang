@@ -39,6 +39,7 @@ Route::group([
         Route::apiResource('employees.employments', API\EmployeeEmploymentController::class);
         Route::apiResource('employees.educational-backgrounds', API\EmployeeEducationalBackgroundController::class);
         Route::apiResource('employees.trainings', API\EmployeeTrainingController::class);
+        Route::post('employees/{employee}/salary-components/batch', [API\EmployeeSalaryComponentController::class, 'batchStore'])->name('employees.salary-components.batch.store');
         Route::apiResource('employees.salary-components', API\EmployeeSalaryComponentController::class);
     });
 });

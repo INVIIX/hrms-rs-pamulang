@@ -26,7 +26,7 @@ class EmployeeTrainingController extends Controller
             } else {
                 unset($input['certificate_path']);
             }
-            $training = $employee->trainings()->create($request->validated());
+            $training = $employee->trainings()->create($input);
             return new EmployeeTrainingResource($training);
         } catch (\Exception $exception) {
             report($exception);
@@ -42,7 +42,13 @@ class EmployeeTrainingController extends Controller
     public function update(EmployeeTrainingRequest $request, Employee $employee, EmployeeTraining $training): EmployeeTrainingResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $training->update($request->validated());
+            $input = $request->validated();
+            if ($request->hasFile('certificate_path')) {
+                $input['certificate_path'] = $request->file('certificate_path')->store('certificates');
+            } else {
+                unset($input['certificate_path']);
+            }
+            $training->update($input);
             return new EmployeeTrainingResource($training);
         } catch (\Exception $exception) {
             report($exception);

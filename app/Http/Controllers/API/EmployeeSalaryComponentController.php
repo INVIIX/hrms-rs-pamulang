@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmployeeSalaryComponentBatchRequest;
 use App\Http\Requests\EmployeeSalaryComponentRequest;
 use App\Http\Resources\EmployeeSalaryComponentResource;
 use App\Models\Employee;
@@ -21,6 +22,18 @@ class EmployeeSalaryComponentController extends Controller
     {
         try {
             $employeeSalaryComponent = $employee->salary_components()->create($request->validated());
+            return new EmployeeSalaryComponentResource($employeeSalaryComponent);
+        } catch (\Exception $exception) {
+            report($exception);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function batchStore(EmployeeSalaryComponentBatchRequest $request, Employee $employee): EmployeeSalaryComponentResource|\Illuminate\Http\JsonResponse
+    {
+        try {
+            $input = $request->validated();
+            $employeeSalaryComponent = $employee->salary_components()->upsert($input['salary_components'], ['employee_id', 'salarty_component_id'], ['amount']);
             return new EmployeeSalaryComponentResource($employeeSalaryComponent);
         } catch (\Exception $exception) {
             report($exception);
