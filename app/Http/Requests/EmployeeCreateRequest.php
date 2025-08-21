@@ -31,7 +31,7 @@ class EmployeeCreateRequest extends FormRequest
             ],
             'type' => 'required|in:Permanent,Contract,Internship,Freelance,Temporary',
             'status' => 'required|in:Active,Probation,Resigned,Terminated,Retired',
-            'avatar' => 'nullable|image',
+            'avatar' => 'nullable|file|image',
             'password' => 'required|string|max:255',
             'bank_account' => 'nullable|string|max:255',
             'bank_name' => 'nullable|string|max:255',

@@ -21,13 +21,13 @@ class EmployeeTrainingRequest extends FormRequest
     {
         return [
             'employee_id' => 'nullable|integer',
-            'training_name' => 'string|max:255',
-            'training_start_date' => 'date',
-            'training_end_date' => 'date',
+            'training_name' => 'required|string|max:255',
+            'training_start_date' => 'required|date|date_format:Y-m-d',
+            'training_end_date' => 'required|date|date_format:Y-m-d',
             'certificate_name' => 'string|max:255',
-            'certificate_path' => 'string|max:255',
-            'type' => 'string|in:Internal,External',
-            'status' => 'string|in:Complete,Incomplete',
+            'certificate_path' => 'file',
+            'type' => 'required|in:Internal,External',
+            'status' => 'required|in:Complete,Incomplete',
             'notes' => 'string',
         ];
     }

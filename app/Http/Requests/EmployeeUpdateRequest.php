@@ -49,7 +49,7 @@ class EmployeeUpdateRequest extends FormRequest
             ],
             'type' => 'nullable|in:Permanent,Contract,Internship,Freelance,Temporary',
             'status' => 'nullable|in:Active,Probation,Resigned,Terminated,Retired',
-            'avatar' => 'nullable|image',
+            'avatar' => 'nullable|file|image',
             'password' => 'nullable|string|max:255',
             'bank_account' => 'nullable|string|max:255',
             'bank_name' => 'nullable|string|max:255',
