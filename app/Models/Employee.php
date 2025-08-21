@@ -98,7 +98,7 @@ class Employee extends Authenticatable implements MustVerifyEmail
 
     public function salary_components(): HasMany
     {
-        return $this->hasMany(EmployeeSalaryComponent::class);
+        return $this->hasMany(EmployeeSalaryComponent::class, 'employee_id');
     }
 
     public function trainings(): HasMany

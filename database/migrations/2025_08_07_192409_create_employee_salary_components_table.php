@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->foreignIdFor(Employee::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignIdFor(SalaryComponent::class)->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->decimal('amount', 15, 2);
+            $table->unique(['employee_id', 'salary_component_id']);
             $table->timestamps();
         });
     }

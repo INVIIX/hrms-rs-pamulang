@@ -29,12 +29,13 @@ class EmployeeSalaryComponentController extends Controller
         }
     }
 
-    public function batchStore(EmployeeSalaryComponentBatchRequest $request, Employee $employee): EmployeeSalaryComponentResource|\Illuminate\Http\JsonResponse
+    public function batchStore(EmployeeSalaryComponentBatchRequest $request, Employee $employee)
     {
         try {
             $input = $request->validated();
-            $employeeSalaryComponent = $employee->salary_components()->upsert($input['salary_components'], ['employee_id', 'salary_component_id'], ['amount']);
-            return new EmployeeSalaryComponentResource($employeeSalaryComponent);
+            $employee->salary_components()->upsert($input['salary_components'], ['employee_id', 'salary_component_id'], ['amount']);
+            $employee->load('salary_components.component');
+            return EmployeeSalaryComponentResource::collection($employee->salary_components);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

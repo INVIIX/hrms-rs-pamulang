@@ -15,7 +15,7 @@ class EmployeeSalaryComponentBatchRequest extends FormRequest
     {
         return [
             'salary_components.*.employee_id' => 'nullable|integer',
-            'salary_components.*.salary_component_id' => 'required|integer',
+            'salary_components.*.salary_component_id' => 'required|exists:salary_components,id',
             'salary_components.*.amount' => 'required|numeric',
         ];
     }

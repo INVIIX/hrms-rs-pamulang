@@ -24,6 +24,6 @@ class EmployeeSalaryComponent extends Model
 
     public function component(): BelongsTo
     {
-        return $this->belongsTo(SalaryComponent::class);
+        return $this->belongsTo(SalaryComponent::class, 'salary_component_id');
     }
 }
