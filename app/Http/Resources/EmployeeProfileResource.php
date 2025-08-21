@@ -19,6 +19,7 @@ class EmployeeProfileResource extends JsonResource
             'place_of_birth' => $this->place_of_birth,
             'date_of_birth' => $this->date_of_birth,
             'gender' => $this->gender,
+            'religion' => $this->religion,
             'marital_status' => $this->marital_status,
             'citizenship' => $this->citizenship,
             'legal_address' => $this->legal_address,
