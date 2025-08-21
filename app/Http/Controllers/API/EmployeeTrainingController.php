@@ -14,40 +14,40 @@ class EmployeeTrainingController extends Controller
 {
     public function index(Employee $employee): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return EmployeeTrainingResource::collection(EmployeeTraining::latest()->paginate(10));
+        return EmployeeTrainingResource::collection($employee->trainings()->latest()->paginate(10));
     }
 
     public function store(EmployeeTrainingRequest $request, Employee $employee): EmployeeTrainingResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $employeeTraining = EmployeeTraining::create($request->validated());
-            return new EmployeeTrainingResource($employeeTraining);
+            $training = $employee->trainings()->create($request->validated());
+            return new EmployeeTrainingResource($training);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function show(Employee $employee, EmployeeTraining $employeeTraining ): EmployeeTrainingResource
+    public function show(Employee $employee, EmployeeTraining $training): EmployeeTrainingResource
     {
-        return EmployeeTrainingResource::make($employeeTraining);
+        return EmployeeTrainingResource::make($training);
     }
 
-    public function update(EmployeeTrainingRequest $request, Employee $employee, EmployeeTraining $employeeTraining): EmployeeTrainingResource|\Illuminate\Http\JsonResponse
+    public function update(EmployeeTrainingRequest $request, Employee $employee, EmployeeTraining $training): EmployeeTrainingResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $employeeTraining->update($request->validated());
-            return new EmployeeTrainingResource($employeeTraining);
+            $training->update($request->validated());
+            return new EmployeeTrainingResource($training);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy(Employee $employee, EmployeeTraining $employeeTraining): \Illuminate\Http\JsonResponse
+    public function destroy(Employee $employee, EmployeeTraining $training): \Illuminate\Http\JsonResponse
     {
         try {
-            $employeeTraining->delete();
+            $training->delete();
             return response()->json(['message' => 'Deleted successfully'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             report($exception);
