@@ -14,7 +14,7 @@ class EmployeeSalaryComponentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_id' => 'integer',
+            'employee_id' => 'nullable|integer',
             'salary_component_id' => 'integer',
             'amount' => 'numeric',
         ];

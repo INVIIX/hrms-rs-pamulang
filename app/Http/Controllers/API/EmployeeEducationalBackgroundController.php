@@ -25,7 +25,7 @@ class EmployeeEducationalBackgroundController extends Controller
             return new EmployeeEducationalBackgroundResource($resource);
         } catch (\Exception $exception) {
             report($exception);
-            return response()->json(['error' => 'There is an error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -41,7 +41,7 @@ class EmployeeEducationalBackgroundController extends Controller
             return new EmployeeEducationalBackgroundResource($resource);
         } catch (\Exception $exception) {
             report($exception);
-            return response()->json(['error' => 'There is an error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -52,7 +52,7 @@ class EmployeeEducationalBackgroundController extends Controller
             return response()->json(['message' => 'Deleted successfully'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             report($exception);
-            return response()->json(['error' => 'There is an error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
