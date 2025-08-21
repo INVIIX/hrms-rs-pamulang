@@ -4,6 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[] $file
+ * @method \Illuminate\Routing\Route route(string $param = null)
+ * @method bool hasFile(string $key)
+ * @method mixed file(string $key)
+ */
 class EmployeeTrainingRequest extends FormRequest
 {
     public function authorize(): bool

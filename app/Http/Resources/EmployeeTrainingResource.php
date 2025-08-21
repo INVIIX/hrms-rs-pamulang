@@ -16,6 +16,7 @@ class EmployeeTrainingResource extends JsonResource
             'training_start_date' => $this->training_start_date,
             'training_end_date' => $this->training_end_date,
             'certificate_name' => $this->certificate_name,
+            'certificate_path' => $this->certificate_path,
             'certificate_url' => $this->certificate_url,
             'notes' => $this->notes,
         ];
