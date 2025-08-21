@@ -10,6 +10,7 @@ class EmployeeEducationalBackgroundResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'employee_id' => $this->employee_id,
             'degree' => $this->degree,
             'major' => $this->major,

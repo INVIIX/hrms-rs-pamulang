@@ -10,6 +10,7 @@ class EmployeeEmploymentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'employee' => new EmployeeResource($this->whenLoaded('employee')),
             'line_manager' => new EmployeeResource($this->whenLoaded('line_manager')),
             'position' => new PositionResource($this->whenLoaded('position')),
