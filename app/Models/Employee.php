@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Enums\EmployeeStatus;
 use App\Enums\EmployeeType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -101,5 +104,19 @@ class Employee extends Authenticatable implements MustVerifyEmail
     public function trainings(): HasMany
     {
         return $this->hasMany(EmployeeTraining::class);
+    }
+
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
+    public function single_document(string $name = 'ktp'): MorphOne
+    {
+        return $this->documents()->one()->ofMany([
+            'id' => 'max'
+        ], function (Builder $query) use ($name) {
+            $query->where('collection', '=', $name);
+        });
     }
 }

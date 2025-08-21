@@ -33,7 +33,7 @@ class EmployeeSalaryComponentController extends Controller
     {
         try {
             $input = $request->validated();
-            $employeeSalaryComponent = $employee->salary_components()->upsert($input['salary_components'], ['employee_id', 'salarty_component_id'], ['amount']);
+            $employeeSalaryComponent = $employee->salary_components()->upsert($input['salary_components'], ['employee_id', 'salary_component_id'], ['amount']);
             return new EmployeeSalaryComponentResource($employeeSalaryComponent);
         } catch (\Exception $exception) {
             report($exception);
