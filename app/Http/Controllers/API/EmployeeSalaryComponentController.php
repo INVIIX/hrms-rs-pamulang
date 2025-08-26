@@ -15,14 +15,16 @@ class EmployeeSalaryComponentController extends Controller
 {
     public function index(Employee $employee): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return EmployeeSalaryComponentResource::collection(EmployeeSalaryComponent::latest()->paginate(10));
+        $resource = $employee->salary_components()->with('component')->get();
+        return EmployeeSalaryComponentResource::collection($resource);
     }
 
     public function store(EmployeeSalaryComponentRequest $request, Employee $employee): EmployeeSalaryComponentResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $employeeSalaryComponent = $employee->salary_components()->create($request->validated());
-            return new EmployeeSalaryComponentResource($employeeSalaryComponent);
+            $salary_component = $employee->salary_components()->create($request->validated());
+            $salary_component->load('component');
+            return new EmployeeSalaryComponentResource($salary_component);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -42,26 +44,28 @@ class EmployeeSalaryComponentController extends Controller
         }
     }
 
-    public function show(Employee $employee, EmployeeSalaryComponent $employeeSalaryComponent): EmployeeSalaryComponentResource
+    public function show(Employee $employee, EmployeeSalaryComponent $salary_component): EmployeeSalaryComponentResource
     {
-        return EmployeeSalaryComponentResource::make($employeeSalaryComponent);
+        $salary_component->load('component');
+        return EmployeeSalaryComponentResource::make($salary_component);
     }
 
-    public function update(EmployeeSalaryComponentRequest $request, Employee $employee, EmployeeSalaryComponent $employeeSalaryComponent): EmployeeSalaryComponentResource|\Illuminate\Http\JsonResponse
+    public function update(EmployeeSalaryComponentRequest $request, Employee $employee, EmployeeSalaryComponent $salary_component): EmployeeSalaryComponentResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $employeeSalaryComponent->update($request->validated());
-            return new EmployeeSalaryComponentResource($employeeSalaryComponent);
+            $salary_component->update($request->validated());
+            $salary_component->load('component');
+            return new EmployeeSalaryComponentResource($salary_component);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy(Employee $employee, EmployeeSalaryComponent $employeeSalaryComponent): \Illuminate\Http\JsonResponse
+    public function destroy(Employee $employee, EmployeeSalaryComponent $salary_component): \Illuminate\Http\JsonResponse
     {
         try {
-            $employeeSalaryComponent->delete();
+            $salary_component->delete();
             return response()->json(['message' => 'Deleted successfully'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             report($exception);
