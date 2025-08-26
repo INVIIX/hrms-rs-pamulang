@@ -29,26 +29,26 @@ class EmployeeEducationalBackgroundController extends Controller
         }
     }
 
-    public function show(Employee $employee, EmployeeEducationalBackground $resource): EmployeeEducationalBackgroundResource
+    public function show(Employee $employee, EmployeeEducationalBackground $educational_background): EmployeeEducationalBackgroundResource
     {
-        return EmployeeEducationalBackgroundResource::make($resource);
+        return EmployeeEducationalBackgroundResource::make($educational_background);
     }
 
-    public function update(EmployeeEducationalBackgroundRequest $request, Employee $employee, EmployeeEducationalBackground $resource): EmployeeEducationalBackgroundResource|\Illuminate\Http\JsonResponse
+    public function update(EmployeeEducationalBackgroundRequest $request, Employee $employee, EmployeeEducationalBackground $educational_background): EmployeeEducationalBackgroundResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $resource->update($request->validated());
-            return new EmployeeEducationalBackgroundResource($resource);
+            $educational_background->update($request->validated());
+            return new EmployeeEducationalBackgroundResource($educational_background);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy(Employee $employee, EmployeeEducationalBackground $resource): \Illuminate\Http\JsonResponse
+    public function destroy(Employee $employee, EmployeeEducationalBackground $educational_background): \Illuminate\Http\JsonResponse
     {
         try {
-            $resource->delete();
+            $educational_background->delete();
             return response()->json(['message' => 'Deleted successfully'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             report($exception);

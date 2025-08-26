@@ -19,34 +19,34 @@ class SalaryComponentController extends Controller
     public function store(SalaryComponentRequest $request): SalaryComponentResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $salaryComponent = SalaryComponent::create($request->validated());
-            return new SalaryComponentResource($salaryComponent);
+            $salary_component = SalaryComponent::create($request->validated());
+            return new SalaryComponentResource($salary_component);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function show(SalaryComponent $salaryComponent): SalaryComponentResource
+    public function show(SalaryComponent $salary_component): SalaryComponentResource
     {
-        return SalaryComponentResource::make($salaryComponent);
+        return SalaryComponentResource::make($salary_component);
     }
 
-    public function update(SalaryComponentRequest $request, SalaryComponent $salaryComponent): SalaryComponentResource|\Illuminate\Http\JsonResponse
+    public function update(SalaryComponentRequest $request, SalaryComponent $salary_component): SalaryComponentResource|\Illuminate\Http\JsonResponse
     {
         try {
-            $salaryComponent->update($request->validated());
-            return new SalaryComponentResource($salaryComponent);
+            $salary_component->update($request->validated());
+            return new SalaryComponentResource($salary_component);
         } catch (\Exception $exception) {
             report($exception);
             return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy(SalaryComponent $salaryComponent): \Illuminate\Http\JsonResponse
+    public function destroy(SalaryComponent $salary_component): \Illuminate\Http\JsonResponse
     {
         try {
-            $salaryComponent->delete();
+            $salary_component->delete();
             return response()->json(['message' => 'Deleted successfully'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             report($exception);
