@@ -72,6 +72,10 @@ class EmployeeController extends Controller
         try {
             $input = $request->validated();
 
+            if(empty($input)){
+                throw new \Exception("No data");
+            }
+
             if ($request->hasFile('avatar')) {
                 $input['avatar'] = $request->file('avatar')->store('avatars');
             } else {

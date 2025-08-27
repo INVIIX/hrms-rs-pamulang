@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * @property \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[] $file
+ * @property \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[] $avatar
  * @method \Illuminate\Routing\Route route(string $param = null)
  * @method bool hasFile(string $key)
  * @method mixed file(string $key)
@@ -24,13 +24,13 @@ class EmployeeUpdateRequest extends FormRequest
         $id = $this->route('employee');
         return [
             'name' => [
-                'nullable',
+                'sometimes',
                 'string',
                 'max:125',
                 Rule::unique('employees')->ignore($id)
             ],
             'email' => [
-                'nullable',
+                'sometimes',
                 'email',
                 Rule::unique('employees')->ignore($id)
             ],
@@ -45,11 +45,12 @@ class EmployeeUpdateRequest extends FormRequest
                 Rule::unique('employees')->ignore($id)
             ],
             'hire_date' => [
+                'nullable',
                 Rule::date()->format('Y-m-d')
             ],
             'type' => 'nullable|in:Permanent,Contract,Internship,Freelance,Temporary',
             'status' => 'nullable|in:Active,Probation,Resigned,Terminated,Retired',
-            'avatar' => 'nullable|file|image',
+            'avatar' => 'file|image',
             'password' => 'nullable|string|max:255',
             'bank_account' => 'nullable|string|max:255',
             'bank_name' => 'nullable|string|max:255',
