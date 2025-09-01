@@ -20,7 +20,10 @@ class EmployeeResource extends JsonResource
             'status' => $this->status,
             'bank_name' => $this->bank_name,
             'bank_account' => $this->bank_account,
-            'profile' => new EmployeeProfileResource($this->whenLoaded('profile'))
+            'hire_date' => $this->hire_date,
+            'role' => $this->role,
+            'profile' => new EmployeeProfileResource($this->whenLoaded('profile')),
+            'work_schedule' => new WorkScheduleResource($this->whenLoaded('work_schedule')),
         ];
     }
 }

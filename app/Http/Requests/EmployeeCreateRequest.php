@@ -35,6 +35,8 @@ class EmployeeCreateRequest extends FormRequest
             'password' => 'required|string|max:255',
             'bank_account' => 'nullable|string|max:255',
             'bank_name' => 'nullable|string|max:255',
+            'role' => 'required|in:user,admin,super-admin',
+            'work_schedule_id' => 'nullable|exists:work_schedules,id',
             'profile.name' => 'required|string|max:255',
             'profile.nik' => 'required|string|max:16|unique:employee_profiles,nik',
             'profile.npwp' => 'nullable|string|max:15',

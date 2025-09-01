@@ -50,10 +50,12 @@ class EmployeeUpdateRequest extends FormRequest
             ],
             'type' => 'nullable|in:Permanent,Contract,Internship,Freelance,Temporary',
             'status' => 'nullable|in:Active,Probation,Resigned,Terminated,Retired',
-            'avatar' => 'file|image',
+            'avatar' => 'nullable|file|image',
             'password' => 'nullable|string|max:255',
             'bank_account' => 'nullable|string|max:255',
             'bank_name' => 'nullable|string|max:255',
+            'role' => 'required|in:user,admin,super-admin',
+            'work_schedule_id' => 'nullable|exists:work_schedules,id',
             'profile' => 'nullable|array',
             'profile.name' => 'nullable|string|max:255',
             'profile.nik' => [

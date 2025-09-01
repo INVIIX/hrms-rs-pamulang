@@ -21,7 +21,7 @@ class EmployeeController extends Controller
             'search' => 'nullable|string|max:255',
         ]);
 
-        $model = Employee::with('profile');
+        $model = Employee::with(['profile']);
 
         // if ($request->has('includes')) {
         //     $includes = $request->input('includes');
@@ -31,8 +31,11 @@ class EmployeeController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $model->whereAny([
-                'nip', 'name', 'email', 'phone',
-            ], 'LIKE', '%'. $search .'%');
+                'nip',
+                'name',
+                'email',
+                'phone',
+            ], 'LIKE', '%' . $search . '%');
         }
 
         $collection = $model->paginate($request->input('limit', 10));
@@ -63,7 +66,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee): EmployeeResource
     {
-        $employee->load('profile');
+        $employee->load(['profile']);
         return EmployeeResource::make($employee);
     }
 
@@ -72,7 +75,7 @@ class EmployeeController extends Controller
         try {
             $input = $request->validated();
 
-            if(empty($input)){
+            if (empty($input)) {
                 throw new \Exception("No data");
             }
 

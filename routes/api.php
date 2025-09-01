@@ -44,5 +44,7 @@ Route::group([
         Route::apiResource('employees.salary-components', API\EmployeeSalaryComponentController::class);
         Route::apiResource('employees.contacts', API\EmployeeContactController::class);
         Route::apiResource('employees.documents', API\EmployeeDocumentController::class);
+
+        Route::apiResource('work-schedules', API\WorkScheduleController::class);
     });
 });

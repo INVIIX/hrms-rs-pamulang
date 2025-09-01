@@ -27,7 +27,7 @@ class EmployeeProfile extends Model
     ];
 
     protected $casts = [
-        'date_of_birth' => 'datetime:Y-m-d',
+        // 'date_of_birth' => 'datetime:Y-m-d',
         'gender' => Gender::class,
         'religion' => Religion::class,
         'marital_status' => MaritalStatus::class,

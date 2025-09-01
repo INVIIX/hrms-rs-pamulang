@@ -7,6 +7,7 @@ use App\Enums\EmployeeType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -27,6 +28,8 @@ class Employee extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $fillable = [
+        'work_schedule_id',
+        'role',
         'nip',
         'name',
         'email',
@@ -60,7 +63,7 @@ class Employee extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'hire_date' => 'datetime:Y-m-d',
+            // 'hire_date' => 'datetime:Y-m-d',
             'type' => EmployeeType::class,
             'status' => EmployeeStatus::class,
         ];
@@ -118,5 +121,10 @@ class Employee extends Authenticatable implements MustVerifyEmail
         ], function (Builder $query) use ($name) {
             $query->where('collection', '=', $name);
         });
+    }
+
+    public function work_schedule(): BelongsTo
+    {
+        return $this->belongsTo(WorkSchedule::class);
     }
 }
