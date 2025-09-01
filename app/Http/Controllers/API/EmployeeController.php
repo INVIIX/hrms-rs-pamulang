@@ -21,7 +21,7 @@ class EmployeeController extends Controller
             'search' => 'nullable|string|max:255',
         ]);
 
-        $model = Employee::with(['profile']);
+        $model = Employee::with(['profile', 'work_schedule.days']);
 
         // if ($request->has('includes')) {
         //     $includes = $request->input('includes');
@@ -55,18 +55,18 @@ class EmployeeController extends Controller
             $employee = Employee::create($input);
             $employee->profile()->updateOrCreate([], $input['profile']);
             DB::commit();
-            $employee->load('profile');
+            $employee->load('profile', 'work_schedule.days');
             return new EmployeeResource($employee);
         } catch (\Exception $exception) {
             DB::rollBack();
             report($exception);
-            return response()->json(['error' => 'There is an error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     public function show(Employee $employee): EmployeeResource
     {
-        $employee->load(['profile']);
+        $employee->load('profile', 'work_schedule.days');
         return EmployeeResource::make($employee);
     }
 
@@ -91,12 +91,12 @@ class EmployeeController extends Controller
                 $employee->profile()->updateOrCreate([], $input['profile']);
             }
             DB::commit();
-            $employee->load('profile');
+            $employee->load('profile', 'work_schedule.days');
             return new EmployeeResource($employee);
         } catch (\Exception $exception) {
             DB::rollBack();
             report($exception);
-            return response()->json(['error' => 'There is an error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -107,7 +107,7 @@ class EmployeeController extends Controller
             return response()->json(['message' => 'Deleted successfully'], Response::HTTP_OK);
         } catch (\Exception $exception) {
             report($exception);
-            return response()->json(['error' => 'There is an error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

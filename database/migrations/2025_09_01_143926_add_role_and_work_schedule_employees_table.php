@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('role')->default('user');
+            $table->string('role')->default('user')->after('work_schedule_id');
         });
     }
 

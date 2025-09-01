@@ -14,7 +14,7 @@ class EmployeeEmploymentController extends Controller
 {
     public function index(Employee $employee): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return EmployeeEmploymentResource::collection($employee->employments()->latest()->paginate(10));
+        return EmployeeEmploymentResource::collection($employee->employments()->with('position', 'group', 'line_manager')->latest()->paginate(10));
     }
 
     public function store(EmployeeEmploymentRequest $request, Employee $employee): EmployeeEmploymentResource|\Illuminate\Http\JsonResponse
@@ -38,6 +38,7 @@ class EmployeeEmploymentController extends Controller
     {
         try {
             $employment->update($request->validated());
+            $employment->load('position', 'group', 'line_manager');
             return new EmployeeEmploymentResource($employment);
         } catch (\Exception $exception) {
             report($exception);

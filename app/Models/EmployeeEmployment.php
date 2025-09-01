@@ -22,7 +22,7 @@ class EmployeeEmployment extends Model
         'notes'
     ];
     protected $casts = [
-        'start_date' => 'datetime:Y-m-d'
+        // 'start_date' => 'datetime:Y-m-d'
     ];
 
     /**

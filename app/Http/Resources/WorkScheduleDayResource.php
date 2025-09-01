@@ -18,6 +18,7 @@ class WorkScheduleDayResource extends JsonResource
             'id' => $this->id,
             'work_schedule_id' => $this->work_schedule_id,
             'day_of_week' => $this->day_of_week,
+            'day_name' => $this->day_of_week->label(),
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'break_duration' => $this->break_duration,
