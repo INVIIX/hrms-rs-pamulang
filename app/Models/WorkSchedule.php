@@ -27,7 +27,7 @@ class WorkSchedule extends Model
         return $this->days()->one()->ofMany([
             'id' => 'max',
         ], function (Builder $query) {
-            $query->today();
+            $query->where('day_of_week', '=', now()->dayOfWeekIso);
         });
     }
 }

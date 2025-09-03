@@ -45,7 +45,7 @@ return new class extends Migration {
             $table->string('clock_out_lng')->nullable();
             $table->string('clock_out_image')->nullable();
             $table->enum('status', ['present', 'late', 'absent', 'leave']);
-            $table->text('notes')->nullable();
+            $table->longText('notes')->nullable();
             $table->foreignIdFor(Employee::class, "verified_by")
                 ->nullable()
                 ->constrained()

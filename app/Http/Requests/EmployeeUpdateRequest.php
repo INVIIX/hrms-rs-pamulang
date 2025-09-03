@@ -55,7 +55,7 @@ class EmployeeUpdateRequest extends FormRequest
             'password' => 'nullable|string|max:255',
             'bank_account' => 'nullable|string|max:255',
             'bank_name' => 'nullable|string|max:255',
-            'role' => 'required|in:user,admin,super-admin',
+            'role' => 'in:User,Admin,Super-Admin',
             'work_schedule_id' => 'nullable|exists:work_schedules,id',
             'profile' => 'nullable|array',
             'profile.name' => 'nullable|string|max:255',

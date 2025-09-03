@@ -25,6 +25,15 @@ return new class extends Migration {
         Schema::create('work_schedule_days', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(WorkSchedule::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->enum('day_name', [
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday'
+            ]);
             $table->tinyInteger('day_of_week');
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
@@ -34,15 +43,6 @@ return new class extends Migration {
             $table->timestamps();
             $table->unique(['work_schedule_id', 'day_of_week']);
         });
-
-        Schema::table('employees', function (Blueprint $table) {
-            $table->foreignIdFor(WorkSchedule::class)
-                ->after('id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
-        });
     }
 
     /**
@@ -50,9 +50,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->dropConstrainedForeignIdFor(WorkSchedule::class);
-        });
         Schema::dropIfExists('work_schedule_days');
         Schema::dropIfExists('work_schedules');
     }

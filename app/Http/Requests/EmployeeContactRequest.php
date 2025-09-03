@@ -29,8 +29,8 @@ class EmployeeContactRequest extends FormRequest
             'date_of_birth' => ['nullable', 'date_format:Y-m-d'],
             'occupation' => ['nullable'],
             'phone' => ['required'],
-            'is_dependant' => ['required','boolean'],
-            'is_emergency_contact' => ['required','boolean'],
+            'is_dependant' => ['required', 'boolean'],
+            'is_emergency_contact' => ['required', 'boolean'],
         ];
     }
 }

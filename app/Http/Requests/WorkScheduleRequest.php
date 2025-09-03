@@ -2,9 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\DayOfWeek;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * @method void merge(array $data)
+ * @method void input(string $key)
+ */
 class WorkScheduleRequest extends FormRequest
 {
     /**
@@ -13,6 +18,19 @@ class WorkScheduleRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $days = collect($this->input('days'))->map(function ($item) {
+            $enum = DayOfWeek::tryFrom($item['day_of_week'] ?? null);
+            $item['day_name'] = !empty($enum) ? $enum?->label() : 'Monday';
+            return $item;
+        })->toArray();
+
+        $this->merge([
+            'days' => $days,
+        ]);
     }
 
     /**
@@ -30,7 +48,8 @@ class WorkScheduleRequest extends FormRequest
             'location_radius' => ['required_if:geolocation_required,true', 'numeric'],
             'geolocation_required' => ['boolean'],
             'days' => ['required', 'array', 'size:7'],
-            'days.*.day_of_week' => ['required', 'numeric', 'distinct'],
+            'days.*.day_name' => ['required'],
+            'days.*.day_of_week' => ['required', 'numeric', 'distinct', Rule::enum(DayOfWeek::class)],
             'days.*.start_time' => ['required', Rule::date()->format('H:i')],
             'days.*.end_time' => ['required', Rule::date()->format('H:i')],
             'days.*.break_duration' => ['required', 'numeric'],

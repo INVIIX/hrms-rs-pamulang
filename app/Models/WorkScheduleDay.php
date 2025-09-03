@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WorkScheduleDay extends Model
 {
-    protected $fillable = ['work_schedule_id', 'day_of_week', 'start_time', 'end_time', 'break_duration', 'is_overnight', 'is_holiday'];
+    protected $fillable = ['work_schedule_id', 'day_of_week', 'day_name', 'start_time', 'end_time', 'break_duration', 'is_overnight', 'is_holiday'];
     protected $casts = [
         'day_of_week' => DayOfWeek::class,
     ];

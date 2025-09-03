@@ -20,16 +20,10 @@ use Spatie\Permission\Traits\HasRoles;
 class Employee extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasRoles, HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'work_schedule_id',
-        'role',
         'nip',
         'name',
         'email',
@@ -43,30 +37,27 @@ class Employee extends Authenticatable implements MustVerifyEmail
         'bank_account'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    protected $appends = ['role'];
+    protected $with = ['profile'];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            // 'hire_date' => 'datetime:Y-m-d',
             'type' => EmployeeType::class,
             'status' => EmployeeStatus::class,
         ];
+    }
+
+    public function getRoleAttribute()
+    {
+        return $this->roles()->first();
     }
 
     public function socialAccounts()
@@ -74,11 +65,6 @@ class Employee extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(EmployeeSocialAccount::class);
     }
 
-    /**
-     * Get the user associated with the Employee
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
     public function profile(): HasOne
     {
         return $this->hasOne(EmployeeProfile::class);

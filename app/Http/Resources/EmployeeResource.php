@@ -21,7 +21,7 @@ class EmployeeResource extends JsonResource
             'bank_name' => $this->bank_name,
             'bank_account' => $this->bank_account,
             'hire_date' => $this->hire_date,
-            'role' => $this->role,
+            'role' => $this->role?->name,
             'profile' => new EmployeeProfileResource($this->whenLoaded('profile')),
             'work_schedule' => new WorkScheduleResource($this->whenLoaded('work_schedule')),
         ];

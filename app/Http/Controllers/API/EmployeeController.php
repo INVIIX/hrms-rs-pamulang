@@ -7,6 +7,7 @@ use App\Http\Requests\EmployeeCreateRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class EmployeeController extends Controller
             'search' => 'nullable|string|max:255',
         ]);
 
-        $model = Employee::with(['profile', 'work_schedule.days']);
+        $model = Employee::query();
 
         // if ($request->has('includes')) {
         //     $includes = $request->input('includes');
@@ -52,7 +53,13 @@ class EmployeeController extends Controller
                 unset($input['avatar']);
             }
             DB::beginTransaction();
+
             $employee = Employee::create($input);
+            $role = Role::firstOrCreate(
+                ['name' => $input['role'], 'guard_name' => 'web'],
+                ['name' => $input['role'], 'guard_name' => 'web']
+            );
+            $employee->syncRoles([$role?->id]);
             $employee->profile()->updateOrCreate([], $input['profile']);
             DB::commit();
             $employee->load('profile', 'work_schedule.days');
@@ -87,6 +94,11 @@ class EmployeeController extends Controller
 
             DB::beginTransaction();
             $employee->update($input);
+            $role = Role::firstOrCreate(
+                ['name' => $input['role'], 'guard_name' => 'web'],
+                ['name' => $input['role'], 'guard_name' => 'web']
+            );
+            $employee->syncRoles([$role?->id]);
             if (isset($input['profile'])) {
                 $employee->profile()->updateOrCreate([], $input['profile']);
             }

@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -23,7 +22,16 @@ return new class extends Migration
             $table->string('place_of_birth')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['M', 'F'])->default('M');
-            $table->enum('marital_status', ['Belum Kawin','Kawin Belum Tercatat','Kawin Tercatat','Cerai Hidup','Cerai Mati'])->nullable();
+            $table->enum('religion', [
+                'Islam',
+                'Kristen',
+                'Khatolik',
+                'Hindu',
+                'Budha',
+                'Konghucu',
+                'Kepercayaan'
+            ]);
+            $table->enum('marital_status', ['Belum Kawin', 'Kawin Belum Tercatat', 'Kawin Tercatat', 'Cerai Hidup', 'Cerai Mati'])->nullable();
             $table->enum('citizenship', ['WNI', 'WNA'])->default('WNI');
             $table->text('legal_address')->nullable();
             $table->text('residential_address')->nullable();
