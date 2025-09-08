@@ -20,7 +20,7 @@ class EmployeeDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'collection' => 'required|string|in:tax,kontrak,asuransi,str_letter,certificates,other_document,surat_perjanjian_lainnya,ktp,kartu_keluarga,akta_kelahiran,npwp,ijazah',
+            'collection' => 'required|string|in:tax,kontrak,asuransi,str_letter,sp_letter,certificates,other_document,surat_perjanjian_lainnya,ktp,kartu_keluarga,akta_kelahiran,npwp,ijazah',
             'file' => 'required|file'
         ];
     }

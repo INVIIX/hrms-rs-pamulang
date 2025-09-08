@@ -12,7 +12,7 @@ Route::group([
     });
 
     Route::group([
-        'middleware' => ['auth:api']
+        'middleware' => ['auth']
     ], function () {
         Route::get('me', [API\AuthController::class, 'me'])->name('auth.me');
         Route::post('logout', [API\AuthController::class, 'logout'])->name('auth.logout');

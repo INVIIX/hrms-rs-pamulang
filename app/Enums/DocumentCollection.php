@@ -8,6 +8,7 @@ enum DocumentCollection: string
     case KONTRAK = "kontrak";
     case ASURANSI = "asuransi";
     case STR_LETTER = "str_letter";
+    case SP_LETTER = "sp_letter";
     case CERTIFICATES = "certificates";
     case OTHER_DOCUMENT = "other_document";
     case SURAT_PERJANJIAN_LAINNYA = "surat_perjanjian_lainnya";
