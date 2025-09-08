@@ -53,7 +53,6 @@ class EmployeeController extends Controller
                 unset($input['avatar']);
             }
             DB::beginTransaction();
-
             $employee = Employee::create($input);
             $role = Role::firstOrCreate(
                 ['name' => $input['role'], 'guard_name' => 'api'],

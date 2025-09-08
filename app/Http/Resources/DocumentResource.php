@@ -19,6 +19,8 @@ class DocumentResource extends JsonResource
             'collection' => $this->collection,
             'filename' => $this->filename,
             'path' => $this->path,
+            'url_stream' => $this->url_stream,
+            'url_download' => $this->url_download,
             'mime_type' => $this->mime_type,
             'size' => $this->size
         ];

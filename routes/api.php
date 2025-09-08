@@ -45,10 +45,10 @@ Route::group([
         Route::apiResource('employees.salary-components', API\EmployeeSalaryComponentController::class);
         Route::apiResource('employees.contacts', API\EmployeeContactController::class);
         Route::apiResource('employees.documents', API\EmployeeDocumentController::class);
-
         Route::apiResource('work-schedules', API\WorkScheduleController::class);
         Route::post('/timesheets/clock-in', [API\TimesheetController::class, 'clockin'])->name('timesheets.clock-in');
         Route::post('/timesheets/clock-out', [API\TimesheetController::class, 'clockout'])->name('timesheets.clock-out');
         Route::apiResource('timesheets', API\TimesheetController::class);
+        Route::get('file', API\FileController::class)->name('file');
     });
 });
