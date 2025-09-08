@@ -19,6 +19,7 @@ class EmployeDocumentResource extends JsonResource
             "kontrak" => new DocumentResource($this->kontrak),
             "asuransi" => new DocumentResource($this->asuransi),
             "str_letter" => new DocumentResource($this->str_letter),
+            "sp_letter" => new DocumentResource($this->sp_letter),
             "certificates" => DocumentResource::collection($this->certificates),
             "other_document" => new DocumentResource($this->other_document),
             "surat_perjanjian_lainnya" => new DocumentResource($this->surat_perjanjian_lainnya),
