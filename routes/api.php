@@ -30,6 +30,7 @@ Route::group([
             Route::get('/religion', [API\EnumReferenceController::class, 'show'])->name('religion');
             Route::get('/salary-component-type', [API\EnumReferenceController::class, 'show'])->name('salary-component-type');
             Route::get('/document-collection', [API\EnumReferenceController::class, 'show'])->name('document-collection');
+            Route::get('/role', [API\EnumReferenceController::class, 'show'])->name('role');
         });
 
         Route::get('groups/tree', [API\GroupController::class, 'tree'])->name('groups.tree');
