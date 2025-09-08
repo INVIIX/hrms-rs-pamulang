@@ -22,6 +22,7 @@ class EmployeeDocumentController extends Controller
             'kontrak' => $employee->single_document('kontrak')->first(),
             'asuransi' => $employee->single_document('asuransi')->first(),
             'str_letter' => $employee->single_document('str_letter')->first(),
+            'sp_letter' => $employee->single_document('sp_letter')->first(),
             'certificates' => $employee->documents()->where('collection', '=', 'certificates')->get(),
             'other_document' => $employee->single_document('other_document')->first(),
             'surat_perjanjian_lainnya' => $employee->single_document('surat_perjanjian_lainnya')->first(),
