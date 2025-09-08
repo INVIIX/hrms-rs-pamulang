@@ -16,7 +16,7 @@ class FileController extends Controller
         /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
         $disk = Storage::disk('local');
         $file = $request->get('path');
-        $download = $request->get('download', false);
+        $download = filter_var($request->get('download', false), FILTER_VALIDATE_BOOLEAN);
 
         if (!$file || !$disk->exists($file)) {
             return response()->json([
@@ -24,13 +24,18 @@ class FileController extends Controller
             ], 404);
         }
 
-        if ($download == true) {
-            return response()->streamDownload(function () use ($disk, $file) {
-                echo $disk->get($file);
-            }, basename($file));
+        $stream = $disk->readStream($file);
+
+        if ($download) {
+            return response()->streamDownload(function () use ($stream) {
+                fpassthru($stream);
+                fclose($stream);
+            }, basename($file), [
+                'Content-Type' => $disk->mimeType($file),
+                'Content-Length' => $disk->size($file),
+            ]);
         }
 
-        $stream = $disk->readStream($file);
         return response()->stream(function () use ($stream) {
             fpassthru($stream);
             fclose($stream);
