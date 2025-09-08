@@ -56,8 +56,8 @@ class EmployeeController extends Controller
 
             $employee = Employee::create($input);
             $role = Role::firstOrCreate(
-                ['name' => $input['role'], 'guard_name' => 'web'],
-                ['name' => $input['role'], 'guard_name' => 'web']
+                ['name' => $input['role'], 'guard_name' => 'api'],
+                ['name' => $input['role'], 'guard_name' => 'api']
             );
             $employee->syncRoles([$role?->id]);
             $employee->profile()->updateOrCreate([], $input['profile']);
@@ -95,8 +95,8 @@ class EmployeeController extends Controller
             DB::beginTransaction();
             $employee->update($input);
             $role = Role::firstOrCreate(
-                ['name' => $input['role'], 'guard_name' => 'web'],
-                ['name' => $input['role'], 'guard_name' => 'web']
+                ['name' => $input['role'], 'guard_name' => 'api'],
+                ['name' => $input['role'], 'guard_name' => 'api']
             );
             $employee->syncRoles([$role?->id]);
             if (isset($input['profile'])) {
