@@ -81,7 +81,6 @@ class EmployeeDocumentController extends Controller
     {
         $input = $request->validated();
         try {
-            $result = collect(['id' => null]);
             $path = '';
             $collection = $input['collection'] ?? null;
             $data = [];

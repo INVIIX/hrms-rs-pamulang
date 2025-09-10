@@ -13,6 +13,7 @@ class EmployeeEmploymentResource extends JsonResource
             'id' => $this->id,
             'employee' => new EmployeeResource($this->whenLoaded('employee')),
             'line_manager' => new EmployeeResource($this->whenLoaded('line_manager')),
+            'line_managers' => $this->line_managers,
             'position' => new PositionResource($this->whenLoaded('position')),
             'group' => new GroupResource($this->whenLoaded('group')),
             'start_date' => $this->start_date,

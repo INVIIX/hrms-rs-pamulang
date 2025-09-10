@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -38,7 +39,7 @@ class Employee extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $appends = ['role'];
-    protected $with = ['profile'];
+    protected $with = ['profile', 'current_performance_indicator'];
 
     protected $hidden = [
         'password',
@@ -73,6 +74,11 @@ class Employee extends Authenticatable implements MustVerifyEmail
     public function employments(): HasMany
     {
         return $this->hasMany(EmployeeEmployment::class);
+    }
+
+    public function latest_employment(): HasOne
+    {
+        return $this->employments()->one()->latestOfMany();
     }
 
     public function educational_backgrounds(): HasMany
@@ -112,5 +118,46 @@ class Employee extends Authenticatable implements MustVerifyEmail
     public function work_schedule(): BelongsTo
     {
         return $this->belongsTo(WorkSchedule::class);
+    }
+
+    public function getLineManagers()
+    {
+        $employeeId = $this->id;
+
+        return DB::select("
+            WITH RECURSIVE managers AS (
+                SELECT em.employee_id, em.line_manager_id
+                FROM employments em
+                WHERE em.employee_id = ?
+
+                UNION ALL
+
+                SELECT em.employee_id, em.line_manager_id
+                FROM employments em
+                INNER JOIN managers m ON em.employee_id = m.line_manager_id
+            )
+            SELECT e.*
+            FROM managers m
+            JOIN employees e ON e.id = m.line_manager_id
+        ", [$employeeId]);
+    }
+
+    public function performance_indicators(): HasMany
+    {
+        return $this->hasMany(PerformanceIndicator::class);
+    }
+
+    public function latest_performance_indicator(): HasOne
+    {
+        return $this->performance_indicators()->one()->latestOfMany('year');
+    }
+
+    public function current_performance_indicator(): HasOne
+    {
+        return $this->performance_indicators()->one()->ofMany([
+            'id' => 'max'
+        ], function (Builder $query) {
+            $query->where('year', '=', date('Y'));
+        });
     }
 }

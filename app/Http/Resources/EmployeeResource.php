@@ -24,6 +24,8 @@ class EmployeeResource extends JsonResource
             'role' => $this->role?->name,
             'profile' => new EmployeeProfileResource($this->whenLoaded('profile')),
             'work_schedule' => new WorkScheduleResource($this->whenLoaded('work_schedule')),
+            'latest_employment' => new EmployeeEmploymentResource($this->whenLoaded('latest_employment')),
+            'current_performance_indicator' => new PerformanceIndicatorResource($this->whenLoaded('current_performance_indicator')),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EmploymentStatus;
 use App\Enums\EmploymentType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -48,5 +49,37 @@ class EmployeeEmployment extends Model
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
+    }
+
+    protected function lineManagers(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $attributes) {
+
+                $employmentId = $attributes['id'];
+
+                $managers = Employee::fromQuery("
+                    WITH RECURSIVE managers AS (
+                        SELECT em.employee_id, em.line_manager_id, 1 as level
+                        FROM employee_employments em
+                        WHERE em.id = ?
+
+                        UNION ALL
+
+                        SELECT em.employee_id, em.line_manager_id, m.level + 1
+                        FROM employee_employments em
+                        INNER JOIN managers m ON em.employee_id = m.line_manager_id
+                    )
+                    SELECT e.*, m.level
+                    FROM managers m
+                    JOIN employees e ON e.id = m.line_manager_id
+                    ORDER BY m.level ASC
+                ", [$employmentId]);
+
+                $managers->load('profile');
+
+                return $managers;
+            }
+        );
     }
 }

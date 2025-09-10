@@ -72,7 +72,7 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee): EmployeeResource
     {
-        $employee->load('profile', 'work_schedule.days');
+        $employee->load('profile', 'latest_employment', 'work_schedule.days');
         return EmployeeResource::make($employee);
     }
 
