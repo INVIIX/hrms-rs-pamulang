@@ -23,7 +23,7 @@ class LoanController extends Controller
     {
         try {
             $loan = Loan::create($request->validated());
-            $loan->load(['employee', 'department']);
+            $loan->load(['employee', 'group']);
             return new LoanResource($loan);
         } catch (\Exception $exception) {
             report($exception);
@@ -36,7 +36,7 @@ class LoanController extends Controller
 
     public function show(Loan $loan): LoanResource
     {
-        $loan->load(['employee', 'department']);
+        $loan->load(['employee_id', 'group_id']);
         return new LoanResource($loan);
     }
 

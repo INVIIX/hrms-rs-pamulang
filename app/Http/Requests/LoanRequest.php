@@ -17,8 +17,8 @@ class LoanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employe_id'    => 'required|integer|exists:employees,id',
-            'department_id' => 'required|integer|exists:departments,id',
+            'employee_id'    => 'required|integer|exists:employees,id',
+            'group_id' => 'required|integer|exists:groups,id',
             'loan_type'     => [new Enum(LoanType::class)],
             'amount'        => 'required|numeric',
             'status'        => [new Enum(LoanStatus::class)],

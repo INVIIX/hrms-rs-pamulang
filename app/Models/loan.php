@@ -10,8 +10,8 @@ class loan extends Model
 {
     //
     protected $fillable = [
-        'employe_id',
-        'department_id',
+        'employee_id',
+        'group_id',
         'loan_type',
         'amount',
         'status',
@@ -30,11 +30,11 @@ class loan extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'employe_id');
+        return $this->belongsTo(Employee::class);
     }
 
-    public function department()
+    public function group()
     {
-        return $this->belongsTo(Group::class, 'group_id');
+        return $this->belongsTo(Group::class);
     }
 }
