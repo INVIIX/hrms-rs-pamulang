@@ -50,6 +50,7 @@ Route::group([
         Route::post('/timesheets/clock-out', [API\TimesheetController::class, 'clockout'])->name('timesheets.clock-out');
         Route::apiResource('timesheets', API\TimesheetController::class);
         Route::apiResource('performance-indicators', API\PerformanceIndicatorController::class);
+        Route::apiResource('loan', API\LoanController::class);
         Route::get('file', API\FileController::class)->name('file');
     });
 });

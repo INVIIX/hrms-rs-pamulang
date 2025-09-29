@@ -20,4 +20,6 @@ class EmployeeTraining extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    
 }
