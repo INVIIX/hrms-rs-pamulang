@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Employee::class)
                 ->constrained()
                 ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignIdFor(Group::class)->constrained()->cascadeOnUpdate()->restrictOnDelete();
 
@@ -28,11 +28,21 @@ return new class extends Migration
             $table->enum('loan_type', ['personal_loan', 'other']);
             $table->decimal('amount', 15, 2);
 
-            $table->enum('status', ['aktif', 'pending', 'selesai'])->default('pending');
+            $table->enum('status', ['Aktif', 'Pending', 'Selesai'])->default('Pending');
             $table->decimal('emi', 15, 2)->default(0);
             $table->decimal('outstanding', 15, 2)->default(0);
+            $table->decimal('interest_rate', 15, 2)->default(0);
+            $table->integer('tenure')->default(0);
+            $table->decimal('payment_progress', 15, 2)->default(0);
+            $table->string('purpose');
+            $table->foreignIdFor(Employee::class, 'approved_by_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->restrictOnDelete();
 
             $table->date('applied_date');
+            $table->date('approved_date') ->nullable();
             $table->timestamps();
         });
     }

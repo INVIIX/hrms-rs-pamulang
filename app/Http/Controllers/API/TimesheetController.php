@@ -79,9 +79,9 @@ class TimesheetController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('clock_in_image')) {
-            $input['clock_in_image'] = $request->file('clock_in_image')->store('attendances/' . now()->format('Y-m-d'));
+            $data['clock_in_image'] = $request->file('clock_in_image')->store('attendances/' . now()->format('Y-m-d'));
         } else {
-            unset($input['clock_in_image']);
+            unset($data['clock_in_image']);
         }
 
         $timesheet = Timesheet::firstOrCreate([

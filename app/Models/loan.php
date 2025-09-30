@@ -17,7 +17,10 @@ class loan extends Model
         'status',
         'emi',
         'outstanding',
-        'applied_date'
+        'applied_date',
+        'purpose',
+        'tenure',
+        'interest_rate'
     ];
 
     protected function casts(): array
@@ -36,5 +39,10 @@ class loan extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function approved_by()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }
